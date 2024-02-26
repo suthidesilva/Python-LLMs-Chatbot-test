@@ -1,22 +1,3 @@
-# Commented out IPython magic to ensure Python compatibility.
-# %pip install langchain
-# %pip install langchain-community
-# %pip install langchain-core
-# %pip install langchain-experimental
-# %pip install "langserve[all]"
-# %pip install langchain-cli
-# %pip install langsmith
-
-# Commented out IPython magic to ensure Python compatibility.
-# %pip install openai
-
-# Commented out IPython magic to ensure Python compatibility.
-# %pip install --upgrade --quiet  google-search-results
-
-# Commented out IPython magic to ensure Python compatibility.
-# %pip install python-dotenv
-# %pip install wolframalpha
-
 import requests
 import os
 import openai
@@ -27,10 +8,10 @@ from langchain_community.tools.google_scholar import GoogleScholarQueryRun
 from langchain_community.utilities.google_scholar import GoogleScholarAPIWrapper
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 
-# Set your OpenAI GPT-3 API key and google scholar (serp) key
+# I would add an OpenAI GPT-3 API key and google scholar (serp) key
 
 os.environ["WOLFRAM_ALPHA_APPID"] = wolf_api_key
-os.environ["SERP_API_KEY"] = serp_api_key
+os.environ["SERP_API_KEY"] = serp_api_key   # I am still struggling to get a Serp API key
 openai.api_key = gpt_api_key
 
 #This is the big function that calls all the other stuff
@@ -62,9 +43,8 @@ def determine_question_type(question):
     response = openai_request(DetermineRole, prompt)
     return response["choices"][0]["message"]["content"].strip()
 
-######################################################
-###   SOURCES section
-######################################################
+
+
 #determines what subject the user is looking at
 def determine_key_concepts(question):
     DeterminePrompt = "Your job is to determine what subject in physics the user is asking about while ignoring the answer to the question they are asking. If the user is not asking about physics, respond only with the word 'none'. Otherwise, give as concise an answer possible about what subject the user is looking into and if it is undergraduate or graduate level work. Remember to be as concise as humanly possible with your answers."
@@ -86,9 +66,9 @@ def Go_do_the_search(user_input):
     response = openai_request(prompt, topics + articles)
     return response["choices"][0]["message"]["content"].strip()
 
-######################################################
-### SOLVE section
-######################################################
+
+
+
 
 #Asks wolfram the question
 def solve_problem(user_input):
@@ -128,6 +108,9 @@ def openai_request(role, task):
     https://colab.research.google.com/drive/133H-tr2uRKTiY9q6XW4k5loz2nAGLAdP
 """
 
+
+
+#Questions 
 #Expected answer of 37.04051835, derived from potential energy
 question = "Could you give me the answer to this problem: A rock falls from a height of 70m with a downwards acceleration of g=9.8m/s^2, how fast is it going when it hits the ground in m/s? (ignoring air resistance)"
 help_with_physics(question)
@@ -139,4 +122,7 @@ question = "Where can I find information to help me solve this problem: Five pos
 help_with_physics(question)
 
 question = "Can you give me some information on where to start looking in order to learn how to answer the following question? In a nonrelativistic, one-dimensional collision, a particle of mass 2m collides with a particle of mass m at rest. If the particles stick together after the collision, what fraction of the initial kinetic energy is lost in the collision? "
+help_with_physics(question)
+
+question = "What is a vector?"
 help_with_physics(question)
